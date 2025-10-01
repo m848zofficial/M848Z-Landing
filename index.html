@@ -1,0 +1,221 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Join the $M848Z movement—fuel DIY engineering, garage experiments, and Solana NFT drops with the glowing gear token. Unravel the code!">
+    <meta name="keywords" content="M848Z, DIY engineering token, Solana token, NFT creators, glowing gear NFT, maker movement">
+    <meta name="author" content="M848Z">
+    <title>$M848Z - Engineer the Unknown</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background: linear-gradient(180deg, #1A1A1A, #2D2D2D);
+            color: #F5F5F5;
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+        }
+        .neon-blue {
+            color: #00D1FF;
+            text-shadow: 0 0 10px #00D1FF, 0 0 20px #00D1FF;
+        }
+        .neon-yellow {
+            color: #FFD700;
+            text-shadow: 0 0 10px #FFD700, 0 0 20px #FFD700;
+        }
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            font-size: 0.9rem;
+            line-height: 1.2;
+            color: #F5F5F5;
+        }
+        .hero-section {
+            background-image: url('https://drive.google.com/uc?id=1U6eILKvCR5xeeyk96s5MZeaKDQIFQ-63');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            animation: fadeIn 1s ease-in;
+        }
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+        .hero-section .container {
+            position: relative;
+            z-index: 2;
+        }
+        .logo-img:hover {
+            filter: drop-shadow(0 0 15px #FFD700);
+        }
+        .btn-primary:hover {
+            transform: scale(1.05);
+            background-color: #00a1cc;
+            filter: drop-shadow(0 0 10px #00D1FF);
+        }
+        .btn-secondary:hover {
+            transform: scale(1.05);
+            background-color: #d1d1d1;
+            filter: drop-shadow(0 0 10px #FFD700);
+        }
+        .btn-youtube:hover {
+            transform: scale(1.05);
+            background-color: #cc0000;
+            filter: drop-shadow(0 0 10px #FF0000);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="py-6 bg-[#1A1A1A] shadow-lg fixed w-full z-10">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="#" class="logo-img"><img src="https://drive.google.com/uc?id=1uEMOMovtBYJRAw4XoFf-L4ef55ss8f-0" alt="M848Z Glowing Gear Logo" class="h-12 md:h-14"></a>
+                <span class="ml-4 text-lg md:text-xl neon-yellow">Engineer the Unknown</span>
+            </div>
+            <a href="https://discord.gg/zygprfze" target="_blank" class="btn-primary bg-[#00D1FF] text-[#1A1A1A] px-6 py-2 rounded-lg font-semibold">Join Discord</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container mx-auto px-4 text-center">
+            <img src="https://drive.google.com/uc?id=1uEMOMovtBYJRAw4XoFf-L4ef55ss8f-0" alt="M848Z Glowing Gear Logo" class="h-32 md:h-48 mx-auto mb-6 logo-img">
+            <h2 class="text-4xl md:text-6xl font-bold neon-blue mb-4">$M848Z: Fuel the Movement</h2>
+            <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto">Power DIY engineering, garage experiments, and exclusive Solana NFT drops. Join creators to unravel the M848Z code!</p>
+            <div class="ascii-art mx-auto mb-6">
+                ⚙️════════════⚙️
+                ║   M848Z    ║
+                ║ *  *  *    ║
+                ║   GLOW     ║
+                ║ Engineer   ║
+                ║ Unknown    ║
+                ⚙️════════════⚙️
+            </div>
+            <div class="flex justify-center gap-4 flex-col md:flex-row">
+                <a href="[Insert Pump.fun Link]" target="_blank" class="btn-primary bg-[#00D1FF] text-[#1A1A1A] px-8 py-3 rounded-lg font-semibold">Buy $M848Z</a>
+                <button class="btn-secondary bg-[#F5F5F5] text-[#1A1A1A] px-8 py-3 rounded-lg font-semibold">Connect Wallet (Soon)</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-16 bg-[#2D2D2D]">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl md:text-4xl font-bold neon-blue mb-4 text-center">What is M848Z?</h3>
+            <p class="text-lg md:text-xl text-center max-w-3xl mx-auto">M848Z is a movement of creators, dreamers, and builders. From garage-built robots to tokenized blueprints, we turn sketches into reality. $M848Z powers our community with funding for DIY projects, exclusive NFTs, and a mysterious code waiting to be unraveled.</p>
+        </div>
+    </section>
+
+    <!-- Utility Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4">
+            <h3 class="text-3xl md:text-4xl font-bold neon-blue mb-8 text-center">Why $M848Z?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-lg text-center">
+                    <h4 class="text-xl md:text-2xl font-semibold mb-2">Fund Builds</h4>
+                    <p class="text-base md:text-lg">Redeem $M848Z for bounties to create 3D-printed gadgets, robots, or circuits. Fuel the next big invention!</p>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-lg text-center">
+                    <h4 class="text-xl md:text-2xl font-semibold mb-2">Mint NFTs</h4>
+                    <p class="text-base md:text-lg">Use $M848Z for 10% off exclusive M848Z NFTs—tokenized blueprints of our wildest creations.</p>
+                </div>
+                <div class="bg-[#1A1A1A] p-6 rounded-lg shadow-lg text-center">
+                    <h4 class="text-xl md:text-2xl font-semibold mb-2">Unlock Perks</h4>
+                    <p class="text-base md:text-lg">Hold 10,000 $M848Z for 'M848Z Insider' role or 5,000 for 'Beta Testers' on our Discord.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Section -->
+    <section class="py-16 bg-[#2D2D2D]">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-3xl md:text-4xl font-bold neon-blue mb-4">Join the Movement</h3>
+            <p class="text-lg md:text-xl mb-6 max-w-2xl mx-auto">Connect with creators, share builds, and mint NFTs on our Discord. Coming soon: 100 tokenized blueprints if $M848Z needs a spark!</p>
+            <div class="flex justify-center gap-4 flex-col md:flex-row">
+                <a href="https://discord.gg/zygprfze" target="_blank" class="btn-primary bg-[#00D1FF] text-[#1A1A1A] px-6 py-3 rounded-lg font-semibold">Join Discord</a>
+                <a href="https://x.com/m848z" target="_blank" class="btn-secondary bg-[#F5F5F5] text-[#1A1A1A] px-6 py-3 rounded-lg font-semibold">Follow on X</a>
+                <a href="https://www.youtube.com/@M848Z" target="_blank" class="btn-youtube bg-[#FF0000] text-[#F5F5F5] px-6 py-3 rounded-lg font-semibold">Subscribe on YouTube</a>
+                <a href="#" target="_blank" class="btn-primary bg-[#00D1FF] text-[#1A1A1A] px-6 py-3 rounded-lg font-semibold opacity-50 cursor-not-allowed">NFT Drop (Soon)</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Updates (Discord Widget) -->
+    <section class="py-16">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-3xl md:text-4xl font-bold neon-blue mb-4">Live Updates</h3>
+            <p class="text-lg md:text-xl mb-6">See what’s happening in our Discord! Join and post in #project-showcase for 1,000 $M848Z airdrops.</p>
+            <!-- Discord Widget - Replace [Your Server ID] with your server ID from https://discord.com/developers/applications -->
+            <iframe src="https://discord.com/widget?id=[Your Server ID]&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-scripts"></iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-6 bg-[#1A1A1A] text-center">
+        <p>$M848Z - Transparent liquidity burned on Solana. Built for creators.</p>
+        <p class="mt-2">Join us: <a href="https://discord.gg/zygprfze" class="neon-blue">Discord</a> | <a href="https://x.com/m848z" class="neon-blue">X</a> | <a href="https://www.youtube.com/@M848Z" class="neon-yellow">YouTube</a> | <a href="[Insert Pump.fun Link]" class="neon-blue">Pump.fun</a></p>
+    </footer>
+
+    <script>
+        // Wallet connection placeholder
+        document.querySelector('.btn-secondary').addEventListener('click', () => {
+            alert('Wallet connection coming soon! Join our Discord for updates.');
+        });
+    </script>
+</body>
+</html>
